@@ -1,0 +1,11 @@
+<h1>Категорії</h1>
+
+<ul>
+    {% for category in categories %}
+        <li>
+            <a href="#">
+                {{ category.name }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>

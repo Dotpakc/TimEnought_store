@@ -1,3 +1,6 @@
-from django.shortcuts import render, redirect, get_object_or_404, reverse, HttpResponse, HttpResponseRedirect, Http404
+from django.shortcuts import render
+from apps.blog.models import BlogCategory
 
-
+def blog_category_list(request):
+    blog_categories = BlogCategory.objects.all()
+    return render(request, "blog/category/list.html", {'categories': blog_categories})
