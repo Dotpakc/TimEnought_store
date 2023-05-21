@@ -1,0 +1,29 @@
+<h1>Cтаті в категорії "{{ category.name }}"</h1>
+
+<ul>
+
+    {% for article in articles %}
+
+        <li>
+
+            <a href="">
+
+                {{ article.title }}
+                
+            </a>
+            <!-- text_preview -->
+            <p>{{ article.text_preview }}</p>
+            <!-- date -->
+            <p>Дата публікації: {{ article.date }}</p>
+            <!-- сategory -->
+            <p>Категорія: {{ article.category.name }}</p>
+            <!-- Чи була стаття змінена -->
+            {% if article.updated_at != article.created_at %}
+                <p>Стаття була змінена</p>
+            {% endif %}
+            
+            
+        </li>
+
+    {% endfor %}
+</ul>
