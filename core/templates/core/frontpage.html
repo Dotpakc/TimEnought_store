@@ -1,22 +1,41 @@
 {% extends 'core/base.html'%}
 
-{% block title %} Home {% endblock %}
+{% block title %} {{title}} {% endblock %}
 
 {% block content %}
-    <h1>Home</h1>
-    <div class="row row-cols-3 g-4">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="text-center">{{title}}</h1>
+            <p class="text-center"> Всього статей: {{articles|length}}</p>
+            
+        </div>
+    <div class="row row-cols-3 g-4 justify-content-center">
 
         {% for article in articles %}
-            <div class="col">
+            <div class="col-md-6">
                 <div class="card">
-                    <div class="card-body">
+                <img src="{{article.image}}" class="card-img-top" alt="Зображення" >
+                <div class="card-body">
                     <h5 class="card-title">{{article.title}}</h5>
-                    <p class="card-text">{{article.content}}</p>
-                    <a href="#" class="card-link">See more</a>
+                    <p class="card-text text-truncate">{{article.text}}</p>
+                </div>
+                <div class="card-footer pb-3">
+                    <small class="text-muted">Дата: {{article.date}}</small>
+                    <div class="tags">
+                        {% for tag in article.tags %}
+                            <span class="badge bg-primary">{{tag}}</span>
+                            {% endfor %}
                     </div>
+                </div>
                 </div>
             </div>
         {% endfor %}
-          
+        
+    
+
+    
+      
     </div>
+    
 {% endblock %}
