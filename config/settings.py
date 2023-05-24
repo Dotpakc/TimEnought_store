@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'core.apps.CoreConfig'
 ]
 
 MIDDLEWARE = [
@@ -79,7 +80,7 @@ DATABASES = {
         'NAME': 'timenought_store_db',
         'USER': 'timenought_store_db_user',
         'PASSWORD': '1234',
-        'HOST': '192.168.0.177',
+        'HOST': 'localhost',
         'PORT': '5432'        
     }
 }
