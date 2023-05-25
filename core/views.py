@@ -45,3 +45,6 @@ def frontpage(request):
     ]
     return render(request, 'core/frontpage.html', {'title':'Головна сторінка','articles': articles})
 
+#ДЗ заглушка, потіп доробити сторінку про нас
+def about(request):
+    return render(request, 'core/frontpage.html', {'title':'Про нас'})
