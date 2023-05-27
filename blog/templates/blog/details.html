@@ -1,0 +1,11 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{{article.title}} {% endblock %}
+
+{% block content %}
+    <h1>{{article.title}}</h1>
+    <p>Дата публикації: {{article.created_at}}</p>
+    <p>Дата оновлення: {{article.updated_at}}</p>
+
+    <p>{{article.content}}</p>
+{% endblock %}
