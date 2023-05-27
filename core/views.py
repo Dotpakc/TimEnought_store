@@ -10,5 +10,7 @@ def frontpage(request):
         {'id': 5, 'title': 'Fifth article', 'content': 'This is the fifth article'},
         {'id': 6, 'title': 'Sixth article', 'content': 'This is the sixth article'},
     ]
-    return render(request, 'core/frontpage.html', {'articles': articles})
+    return render(request, 'core/frontpage.html', {'title': 'O нас', 'articles': articles})
 
+def about(request):
+    return render(request, 'core/about.html', {'title': 'O нас'})

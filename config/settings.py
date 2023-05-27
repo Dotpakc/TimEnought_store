@@ -79,8 +79,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'timenought_store_db',
         'USER': 'timenought_store_db_user',
-        'PASSWORD': '1234',
-        'HOST': '192.168.0.177',
+        'PASSWORD': '12345678',
+        'HOST': '127.0.0.1',
         'PORT': '5432'        
     }
 }
