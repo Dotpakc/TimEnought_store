@@ -6,7 +6,6 @@ def details(request, id):
     article = Article.objects.get(id=id)
     return render(request, 'blog/details.html', {'article': article})
 
-
 def random_article(request):
     article = Article.objects.order_by('?').first()
     return render(request, 'blog/details.html', {'article': article})

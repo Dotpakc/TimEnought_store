@@ -2,12 +2,14 @@ from django.db import models
 
 # Create your models here.
 class Article(models.Model):
-    title = models.CharField(max_length=255)
-    slug = models.SlugField()
-    content_preview = models.TextField()
-    content = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE, related_name='articles', default=1, verbose_name='Категория')
+    tags = models.ManyToManyField('Tag', related_name='articles', verbose_name='Теги')
+    title = models.CharField(max_length=255, verbose_name='Заголовок')
+    slug = models.SlugField(verbose_name='URL')
+    content_preview = models.TextField(verbose_name='Превью статьи')
+    content = models.TextField(verbose_name='Текст статьи')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата створення')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата оновлення')
     
     def __str__(self):
         return f'{self.title}'
@@ -15,10 +17,12 @@ class Article(models.Model):
     class Meta:
         verbose_name = 'Статья'
         verbose_name_plural = 'Статьи'
+        ordering = ['-created_at']
     
     
 class Category(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, verbose_name='Назва тегу')
+    slug = models.SlugField(verbose_name='URL', default='')
     
     def __str__(self):
         return f'{self.name}'
@@ -26,3 +30,13 @@ class Category(models.Model):
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
+        
+class Tag(models.Model):
+    name = models.CharField(max_length=255)
+    
+    def __str__(self):
+        return f'{self.name}'
+    
+    class Meta:
+        verbose_name = 'Тег'
+        verbose_name_plural = 'Теги'

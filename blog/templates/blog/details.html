@@ -6,6 +6,9 @@
     <h1>{{article.title}}</h1>
     <p>Дата публикації: {{article.created_at}}</p>
     <p>Дата оновлення: {{article.updated_at}}</p>
-
+    <p>Теги: {% for tag in article.tags.all %}
+        <a href='#'>#{{tag.name}}</a> 
+        {% endfor %}
+    </p>
     <p>{{article.content}}</p>
 {% endblock %}
