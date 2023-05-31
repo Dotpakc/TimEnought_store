@@ -50,4 +50,8 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'{self.article.title} - {self.content}'
-        
+    
+    class Meta:
+        verbose_name = 'Коментар'
+        verbose_name_plural = 'Коментарі'
+        ordering = ['-created_at']
