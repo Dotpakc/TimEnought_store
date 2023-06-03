@@ -6,7 +6,7 @@ from .forms import CommentForm
 from .models import Article
 # Create your views here.
 def details(request, slug):
-    article = get_object_or_404(Article, slug=slug)
+    article = get_object_or_404(Article, slug=slug, status='active')
     
     if request.method == 'POST':
         form = CommentForm(request.POST)
@@ -21,15 +21,15 @@ def details(request, slug):
     return render(request, 'blog/details.html', {'article': article, 'form': form})
 
 def random_article(request):
-    article = Article.objects.order_by('?').first()
+    article = Article.objects.filter(status='active').order_by('?').first()
     return render(request, 'blog/details.html', {'article': article})
 
 def articles_list(request):
-    articles = Article.objects.all()
+    articles = Article.objects.filter(status='active')
     return render(request, 'blog/list.html', {'articles': articles,'title': "Blog - головна сторінка"})
 
 def articles_tag_list(request, tag):
-    articles = Article.objects.filter(tags__name=tag)
+    articles = Article.objects.filter(tags__name=tag, status='active')
     return render(request, 'blog/articles_tag_list.html', {'articles': articles, 'title': tag})
 
 
@@ -39,6 +39,6 @@ def tag_list(request, tag):
 def search(request):
    query = request.GET.get('query', '')
    
-   articles = Article.objects.filter(Q(title__icontains=query) | Q(content__icontains=query) | Q(content_preview__icontains=query))
+   articles = Article.objects.filter(Q(title__icontains=query) | Q(content__icontains=query) | Q(content_preview__icontains=query), status='active')
    
    return render(request, 'blog/search.html', {'articles': articles, 'title': "Пошук по сайту", 'query': query})

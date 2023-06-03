@@ -2,6 +2,16 @@ from django.db import models
 
 # Create your models here.
 class Article(models.Model):
+    ACTIVE = 'active'
+    DRAFT = 'draft'
+    
+    STATUS_CHOICES = (
+        (ACTIVE, 'Активна'),
+        (DRAFT, 'Чернетка'),
+    )
+    
+    
+    
     category = models.ForeignKey('Category', on_delete=models.CASCADE, related_name='articles', default=1, verbose_name='Категория')
     tags = models.ManyToManyField('Tag', related_name='articles', verbose_name='Теги')
     title = models.CharField(max_length=255, verbose_name='Заголовок')
@@ -10,6 +20,7 @@ class Article(models.Model):
     content = models.TextField(verbose_name='Текст статьи')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата створення')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата оновлення')
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default=DRAFT, verbose_name='Статус')
     
     def __str__(self):
         return f'{self.title}'
