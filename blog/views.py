@@ -34,3 +34,10 @@ def articles_tag_list(request, tag):
 
 def tag_list(request, tag):
    pass
+
+def search(request):
+   query = request.GET.get('query', '')
+   
+   articles = Article.objects.filter(title__icontains=query)
+   
+   return render(request, 'blog/search.html', {'articles': articles, 'title': "Пошук по сайту", 'query': query})
