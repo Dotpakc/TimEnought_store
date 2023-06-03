@@ -3,6 +3,9 @@
 {% block title %}{{article.title}} {% endblock %}
 
 {% block content %}
+    {% if article.image %}
+        <img src="{{article.image.url}}" alt="{{article.title}}" class="img-fluid">
+    {% endif %}
     <h1>{{article.title}}</h1>
     <p>Дата публикації: {{article.created_at}}</p>
     <p>Дата оновлення: {{article.updated_at}}</p>
