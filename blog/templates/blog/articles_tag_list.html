@@ -3,7 +3,7 @@
 {% block title %} {{title}} {% endblock %}
 
 {% block content %}
-    <h1>{{title}}</h1>
+    <h1>Статті по тегу - {{title}}</h1>
     <div class="row row-cols-3 g-4">
 
         {% for article in articles %}
@@ -11,7 +11,7 @@
                 <div class="card">
                     <div class="card-body">
                     <h5 class="card-title">{{article.title}}</h5>
-                    <p class="card-text">{{article.content_preview}}</p>
+                    <p class="card-text">{{article.content}}</p>
                     <a href="{% url 'details' article.slug %}" class="btn btn-primary">Details</a>
                     </div>
                 </div>
