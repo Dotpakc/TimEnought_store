@@ -3,11 +3,14 @@
 {% block title %}{{article.title}} {% endblock %}
 
 {% block content %}
+    {% if article.image %}
+        <img src="{{article.image.url}}" alt="{{article.title}}" class="img-fluid">
+    {% endif %}
     <h1>{{article.title}}</h1>
     <p>Дата публикації: {{article.created_at}}</p>
     <p>Дата оновлення: {{article.updated_at}}</p>
     <p>Теги: {% for tag in article.tags.all %}
-        <a href='#'>#{{tag.name}}</a> 
+        <a href='{% url "articles_tag_list" tag=tag.slug %}'>#{{tag.name}}</a> 
         {% endfor %}
     </p>
     <p>Категорія: <a href='#'>{{article.category.name}}</a></p>
