@@ -7,7 +7,7 @@ from .forms import CommentForm
 from .models import Article
 # Create your views here.
 
-@login_required(login_url='/members/login/')
+@login_required()
 def details(request, slug):
     article = get_object_or_404(Article, slug=slug, status='active')
     
@@ -36,16 +36,16 @@ def articles_list(request):
 
 
 
-@login_required(login_url='/members/login/')
+@login_required()
 def articles_tag_list(request, tag):
     articles = Article.objects.filter(tags__name=tag, status='active')
     return render(request, 'blog/articles_tag_list.html', {'articles': articles, 'title': tag})
 
-@login_required(login_url='/members/login/')
+@login_required()
 def tag_list(request, tag):
    pass
 
-@login_required(login_url='/members/login/')
+@login_required()
 def search(request):
    query = request.GET.get('query', '')
    
