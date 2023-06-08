@@ -1,0 +1,9 @@
+{% extends 'core/base.html'%}
+
+{% block title %} {{title}} {% endblock %}
+
+{% block content %}
+    <h1>{{title}}</h1>
+    <p>Ви не авторизовані на сайті</p>
+    <a class="btn btn-primary" href="{% url 'login' %}">Авторизуватися</a>
+{% endblock %}
