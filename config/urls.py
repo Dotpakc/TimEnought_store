@@ -22,6 +22,7 @@ from django.conf import settings
 from core.views import frontpage, about
 from blog.urls import urlpatterns as blog_urls
 from django.contrib.auth import urls
+from ckeditor_uploader import urls as ckeditor_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,4 +30,7 @@ urlpatterns = [
     path('about/', about, name='about'),
     path('blog/', include(blog_urls)),
     path('members/', include('members.urls')), 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('ckeditor/', include(ckeditor_urls)),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -7,11 +7,7 @@
         <img src="{{article.image.url}}" alt="{{article.title}}" class="img-fluid">
     {% endif %}
     {%if user.first_name == article.author.first_name %}
-        {% comment %} TODO: Кнопки редагування і видалення {% endcomment %}
-        {% comment %} <a href="{% url 'articles_edit' article.slug %}">Редагувати</a>
-        <a href="{% url 'articles_delete' article.slug %}">Видалити</a> {% endcomment %}
-         <a class="btn btn-primary" href="">Редагувати</a>
-            <a class="btn btn-danger" href="">Видалити</a>
+        <a class="btn btn-primary"  href="{% url 'article_update' article.slug %}">Редагувати</a>
     {% endif %}
     <h1>{{article.title}}</h1>
     <p>Автор: {{article.author.first_name}}</p>
@@ -22,8 +18,9 @@
         {% endfor %}
     </p>
     <p>Категорія: <a href='#'>{{article.category.name}}</a></p>
-    <p>{{article.content}}</p>
-
+    <hr>
+    <p>{{article.content | safe}}</p>
+    <hr>
     <h3>Додати коментар</h3>
     <form method="post">
         {% csrf_token %}

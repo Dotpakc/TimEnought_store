@@ -1,5 +1,5 @@
 from django.db import models
-
+from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
 
 # Create your models here.
@@ -19,7 +19,7 @@ class Article(models.Model):
     title = models.CharField(max_length=255, verbose_name='Заголовок')
     slug = models.SlugField(verbose_name='URL', unique=True)
     content_preview = models.TextField(verbose_name='Превью статьи')
-    content = models.TextField(verbose_name='Текст статьи')
+    content = RichTextField(verbose_name='Контент')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата створення')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата оновлення')
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default=DRAFT, verbose_name='Статус')
