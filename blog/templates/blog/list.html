@@ -4,22 +4,34 @@
 
 {% block content %}
     <h1>{{title}}</h1>
+    <div>
+        <a class="btn btn-primary " href="{% url 'create' %}">Create</a>
+    </div> 
+
     <div class="row row-cols-3 g-4">
 
         {% for article in articles %}
             <div class="col">
                 <div class="card">
+                    <a href="{% url 'details' article.slug %}" class = "text-decoration-none text-white">
+                    
                     {% if article.image %}
-                        <img src="{{article.image.url}}" class="card-img-top" alt="...">
+                        <img src="{{article.image.url}}" class="card-img-top object-fit-cover" height="200px">
                     {% else %}
                         <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
                     {% endif %}
+                    </a>
                         <div class="card-body">
                     <h5 class="card-title">{{article.title}}</h5>
                     <p class="card-subtitle mb-2 text-muted">Опубліковано: {{article.created_at | timesince}} назад</p>
                     <p class="card-text">{{article.content_preview}}</p>
                     <a href="{% url 'details' article.slug %}" class="btn btn-primary">Details</a>
+                    {% if user.is_authenticated and user == article.author %}
+                        <a href="{% url 'articles_update' article.slug %}" class="btn btn-warning">Update</a>
+                        <a href="{% url 'articles_delete' article.slug %}" class="btn btn-danger">Delete</a>
+                    {% endif %}
                     </div>
+                    
                 </div>
             </div>
             {% empty %}

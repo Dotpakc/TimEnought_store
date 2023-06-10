@@ -4,17 +4,18 @@
 
 {% block content %}
     {% if article.image %}
-        <img src="{{article.image.url}}" alt="{{article.title}}" class="img-fluid">
+        <img src="{{article.image.url}}" alt="{{article.title}}" height="500px" class="object-fit-cover">
+        
     {% endif %}
-    {%if user.first_name == article.author.first_name %}
-        {% comment %} TODO: Кнопки редагування і видалення {% endcomment %}
-        {% comment %} <a href="{% url 'articles_edit' article.slug %}">Редагувати</a>
-        <a href="{% url 'articles_delete' article.slug %}">Видалити</a> {% endcomment %}
-         <a class="btn btn-primary" href="">Редагувати</a>
-            <a class="btn btn-danger" href="">Видалити</a>
+    
+    {% if user.is_authenticated and user == article.author %}
+    <div class = "my-3">
+        <a class="btn btn-primary" href="{% url 'articles_update' article.slug %}">Редагувати</a>
+        <a class="btn btn-danger" href="{% url 'articles_delete' article.slug %}">Видалити</a>
+    </div>
     {% endif %}
     <h1>{{article.title}}</h1>
-    <p>Автор: {{article.author.first_name}}</p>
+    <p>Автор: {{article.author.username }}</p>
     <p>Дата публикації: {{article.created_at}}</p>
     <p>Дата оновлення: {{article.updated_at}}</p>
     <p>Теги: {% for tag in article.tags.all %}

@@ -1,9 +1,10 @@
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 
-from .forms import CommentForm
+from .forms import CommentForm, ArticleForm
 from .models import Article
 # Create your views here.
 
@@ -52,3 +53,40 @@ def search(request):
    articles = Article.objects.filter(Q(title__icontains=query) | Q(content__icontains=query) | Q(content_preview__icontains=query), status='active')
    
    return render(request, 'blog/search.html', {'articles': articles, 'title': "Пошук по сайту", 'query': query})
+
+
+@login_required()
+def create(request):
+    if request.method == 'POST':
+        form = ArticleForm(request.POST, request.FILES)
+        
+        if form.is_valid():
+            article = form.save(commit=False)
+            article.author = request.user
+            article.save()
+            messages.add_message(request, messages.INFO, 'Cтаття створенна')
+            return redirect('details', slug=article.slug)
+    else:
+        form = ArticleForm()
+    return render(request, 'blog/create.html', {'form': form, 'title': "Створення статті"})
+
+@login_required()
+def update(request, slug):
+    article = get_object_or_404(Article, slug=slug, author=request.user)
+    if request.method == 'POST':
+        form = ArticleForm(request.POST, request.FILES, instance=article)
+        
+        if form.is_valid():
+            article = form.save()
+            messages.add_message(request, messages.INFO, 'Cтаття оновлена')
+            return redirect('details', slug=article.slug)
+    else:
+        form = ArticleForm(instance=article)
+    return render(request, 'blog/update.html', {'form': form, 'title': "Оновлення статті"})
+
+@login_required()
+def delete(request, slug):
+    article = get_object_or_404(Article, slug=slug, author=request.user)
+    article.delete()
+    messages.add_message(request, messages.INFO, 'Cтаття видалена')
+    return redirect('blog')
