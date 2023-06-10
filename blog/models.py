@@ -1,6 +1,8 @@
 from django.db import models
 from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
+#slugify
+from django.utils.text import slugify
 
 # Create your models here.
 class Article(models.Model):
@@ -15,7 +17,7 @@ class Article(models.Model):
     
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='articles', verbose_name='Автор', default=1)
     category = models.ForeignKey('Category', on_delete=models.CASCADE, related_name='articles', default=1, verbose_name='Категория')
-    tags = models.ManyToManyField('Tag', related_name='articles', verbose_name='Теги')
+    tags = models.ManyToManyField('Tag', related_name='articles', verbose_name='Теги', blank=True, null=True)
     title = models.CharField(max_length=255, verbose_name='Заголовок')
     slug = models.SlugField(verbose_name='URL', unique=True)
     content_preview = models.TextField(verbose_name='Превью статьи')
@@ -32,6 +34,10 @@ class Article(models.Model):
         verbose_name = 'Статья'
         verbose_name_plural = 'Статьи'
         ordering = ['-created_at']
+        
+    def save(self, *args, **kwargs):
+        self.slug = self.slug or slugify(self.name)
+        super().save(*args, **kwargs)
     
     
 class Category(models.Model):
@@ -44,6 +50,10 @@ class Category(models.Model):
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
+    
+    def save(self, *args, **kwargs):
+        self.slug = self.slug or slugify(self.name)
+        super().save(*args, **kwargs)
         
 class Tag(models.Model):
     name = models.CharField(max_length=255, verbose_name='Назва тегу', unique=True)
@@ -55,6 +65,10 @@ class Tag(models.Model):
     class Meta:
         verbose_name = 'Тег'
         verbose_name_plural = 'Теги'
+        
+    def save(self, *args, **kwargs):
+        self.slug = self.slug or slugify(self.name)
+        super().save(*args, **kwargs)
 
 class Comment(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='comments')

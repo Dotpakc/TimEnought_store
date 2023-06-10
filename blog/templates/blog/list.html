@@ -20,7 +20,10 @@
                     <p class="card-subtitle mb-2 text-muted">Опубліковано: {{article.created_at | timesince}} назад</p>
                     <p class="card-text">{{article.content_preview}}</p>
                     <a href="{% url 'details' article.slug %}" class="btn btn-primary">Details</a>
-                    <a href="{% url 'update' article.slug %}" class="btn btn-warning">update</a>
+                    {% if user.is_authenticated and user == article.author %}
+                    <a href="{% url 'article_update' article.slug %}" class="btn btn-warning">update</a>
+                    
+                    {% endif %}
                     </div>
                 </div>
             </div>
