@@ -34,6 +34,8 @@ class ArticleForm(forms.ModelForm):
         tags = self.cleaned_data['tags_input']
         tags_list = [tag.strip() for tag in tags.split(',')]
         for tag in tags_list:
+            if not tag:
+                continue
             tag_obj, created = Tag.objects.get_or_create(name=tag)
             article.tags.add(tag_obj)
         return article
