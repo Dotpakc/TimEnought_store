@@ -23,8 +23,9 @@
         {% endfor %}
     </p>
     <p>Категорія: <a href='#'>{{article.category.name}}</a></p>
-    <p>{{article.content}}</p>
-
+    <hr>
+    <p>{{article.content|safe}}</p>
+    <hr>
     <h3>Додати коментар</h3>
     <form method="post">
         {% csrf_token %}
