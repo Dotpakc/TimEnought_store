@@ -59,7 +59,7 @@ def search(request):
 def create(request):
     if request.method == 'POST':
         form = ArticleForm(request.POST, request.FILES)
-        
+               
         if form.is_valid():
             article = form.save(commit=False)
             article.author = request.user
