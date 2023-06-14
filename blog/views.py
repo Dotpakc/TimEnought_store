@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
+from django.core.paginator import Paginator
 
 from .forms import CommentForm, ArticleForm
 from .models import Article
@@ -33,7 +34,10 @@ def articles_list(request):
     if not request.user.is_authenticated:
         return render(request, 'blog/error_login.html', {'title': "Помилка доступу"})
     articles = Article.objects.filter(status='active')
-    return render(request, 'blog/list.html', {'articles': articles,'title': "Blog - головна сторінка"})
+    paginator = Paginator(articles, 2)
+    page_number = request.GET.get("page")
+    page_articles = paginator.get_page(page_number)
+    return render(request, 'blog/list.html', {'page_articles': page_articles,'title': "Blog - головна сторінка"})
 
 
 

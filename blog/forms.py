@@ -32,16 +32,23 @@ class ArticleForm(forms.ModelForm):
     def save(self, commit=True):
         article = super().save(commit=False)
                
-        tags = self.cleaned_data['tags_input']
-        if tags:
-            tags_list = [tag.strip() for tag in tags.split(',')]
-            article.tags.clear()
-            for tag in tags_list:
-                if not tag:
-                    continue
-                tag_obj, _ = Tag.objects.get_or_create(name=tag)
-                article.tags.add(tag_obj)
-                
         if commit:
-            article.save()
+            article.save()      
+               
+               
+            tags = self.cleaned_data['tags_input']
+            if tags:
+                tags_list = [tag.strip() for tag in tags.split(',')]
+                
+                # delete old tags
+                if self.instance.pk:
+                    self.instance.tags.clear()
+                    
+                for tag in tags_list:
+                    if not tag:
+                        continue
+                    tag_obj, _ = Tag.objects.get_or_create(name=tag)
+                    article.tags.add(tag_obj)
+                
+        
         return article
