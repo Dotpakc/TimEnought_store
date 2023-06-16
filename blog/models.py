@@ -1,6 +1,8 @@
 from django.db import models
 from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
+from django.utils.text import slugify
+
 
 # Create your models here.
 class Article(models.Model):
@@ -28,6 +30,10 @@ class Article(models.Model):
     def __str__(self):
         return f'{self.title}'
     
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+    
     class Meta:
         verbose_name = 'Статья'
         verbose_name_plural = 'Статьи'
@@ -40,6 +46,10 @@ class Category(models.Model):
     
     def __str__(self):
         return f'{self.name}'
+    
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
     
     class Meta:
         verbose_name = 'Категория'
@@ -55,6 +65,11 @@ class Tag(models.Model):
     class Meta:
         verbose_name = 'Тег'
         verbose_name_plural = 'Теги'
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
 
 class Comment(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='comments')
