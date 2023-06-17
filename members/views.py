@@ -3,6 +3,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 
+from .forms import SingupForm, EditProfileForm
+
 
 # Create your views here.
 def login_view(request):
@@ -19,11 +21,43 @@ def login_view(request):
         form = AuthenticationForm()
     
     
-    return render(request, 'members/login.html', {'title':'Login','form':form})
+    return render(request, 'members/login_or_signup.html', {'title':'Login','form':form})
+
+def singup_view(request):
+    if request.method == 'POST':
+        form = SingupForm(request.POST)
+        if form.is_valid():
+            form.save()
+            
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return redirect('index')
+    else:
+        form = SingupForm()
+    
+    return render(request, 'members/login_or_signup.html', {'title':'Signup','form':form})
+
+
+
 
 @login_required()
 def profile_view(request):
     return render(request, 'members/profile.html', {'title':'Profile'})
+
+@login_required
+def profile_edit(request):
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, instance=request.user)
+        
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+        form = EditProfileForm(instance=request.user)
+        return render(request, 'members/login_or_signup.html', {'title':'Edit Profile','form':form})
 
 @login_required()
 def logout_view(request):
