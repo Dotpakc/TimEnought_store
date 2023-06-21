@@ -1,0 +1,14 @@
+{% extends 'core/base.html'%}
+
+{% block title %} {{ object.name }} {% endblock %}
+
+{% block content %}
+    <a href="{% url 'product_list' %}">Назад</a>
+    <h1>{{ object.name }}</h1>
+    <p>Ціна : {{ object.price }} грн.</p>
+    <p>Published: {{ object.created_at|date }}</p>
+    <p>{{ object.description| safe}}</p>
+    
+    <p>Published: {{ object.created_at|date }}</p>
+
+{% endblock %}

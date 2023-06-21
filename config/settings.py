@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'blog.apps.BlogConfig',
     'members',
+    'shop.apps.ShopConfig',
     'ckeditor',
 ]
 
