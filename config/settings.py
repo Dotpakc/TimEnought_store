@@ -37,11 +37,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    'ckeditor',
+    'mptt',
+    'imagekit',
+    
     'core.apps.CoreConfig',
     'blog.apps.BlogConfig',
-    'members',
+    'members.apps.MembersConfig',
+    'catalog.apps.CatalogConfig',
     'shop.apps.ShopConfig',
-    'ckeditor',
+    
 ]
 
 MIDDLEWARE = [
@@ -145,6 +151,6 @@ CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': 'full',
         'height': 300,
-        'width': 1200, 
+        'width': 1200
     },
 }
