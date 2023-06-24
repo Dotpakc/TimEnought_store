@@ -8,6 +8,8 @@ from mptt.models import MPTTModel, TreeForeignKey
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
 
+from ckeditor.fields import RichTextField
+
 MEDIA_ROOT = settings.MEDIA_ROOT
 
 
@@ -62,3 +64,21 @@ class Category(MPTTModel):
     class Meta:
         verbose_name = 'Категорія'
         verbose_name_plural = 'Категорії'
+        
+        
+class Product(models.Model):
+    name = models.CharField(verbose_name='Назва', max_length=255)
+    description = RichTextField(verbose_name='Опис', blank=True, null=True)
+    quantity = models.PositiveIntegerField(verbose_name='Кількість', default=0)
+    price = models.DecimalField(verbose_name='Ціна', max_digits=10, decimal_places=2)
+    created_at = models.DateTimeField(verbose_name='Дата створення', auto_now_add=True)
+    updated_at = models.DateTimeField(verbose_name='Дата оновлення', auto_now=True)
+    
+    
+    class Meta:
+        ordering = ('-created_at',)
+        verbose_name = 'Товар'
+        verbose_name_plural = 'Товари'
+        
+    def __str__(self):
+        return self.name

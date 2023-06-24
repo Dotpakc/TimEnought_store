@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category
+from .models import Category,Product
 
 
 @admin.register(Category)
@@ -8,4 +8,8 @@ class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
     
     readonly_fields = ('image_tag_thumbnail',)
-    
+
+
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    pass
