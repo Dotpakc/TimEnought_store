@@ -73,7 +73,13 @@ class Product(models.Model):
     price = models.DecimalField(verbose_name='Ціна', max_digits=10, decimal_places=2)
     created_at = models.DateTimeField(verbose_name='Дата створення', auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name='Дата оновлення', auto_now=True)
-    
+    category = models.ManyToManyField(
+        to=Category,
+        verbose_name='Категорії',
+        through='ProductCategory',
+        related_name='products',
+        blank=True        
+    )
     
     class Meta:
         ordering = ('-created_at',)
@@ -82,3 +88,22 @@ class Product(models.Model):
         
     def __str__(self):
         return self.name
+    
+    
+class ProductCategory(models.Model):
+    product = models.ForeignKey(Product, verbose_name='Товар', on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, verbose_name='Категорія', on_delete=models.CASCADE)
+    is_main = models.BooleanField(verbose_name='Основна', default=False)
+    
+    def __str__(self):
+        return f'{self.product.name} - {self.category.name}'
+    
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if self.is_main:
+            ProductCategory.objects.filter(product=self.product, is_main=True).update(is_main=False)
+        super().save(force_insert, force_update, using, update_fields)
+        
+    class Meta:
+        verbose_name = 'Категорія товару'
+        verbose_name_plural = 'Категорії товарів'
+        

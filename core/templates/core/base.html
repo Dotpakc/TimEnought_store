@@ -59,11 +59,13 @@
           </div>
         {% endfor %}
       {% endif %}
-
+      
+      {% block content_shop %}
       <div class="row align-items-md-stretch bg-body-tertiary rounded-3 p-4 my-5">
         {% block content %}{% endblock %}
       </div>
-
+      {% endblock %}
+      
        
 
     </div>
