@@ -19,8 +19,8 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 
-from core.views import frontpage, about
-from blog.urls import urlpatterns as blog_urls
+from apps.core.views import frontpage, about
+from apps.blog.urls import urlpatterns as blog_urls
 from django.contrib.auth import urls
 
 urlpatterns = [
@@ -28,7 +28,7 @@ urlpatterns = [
     path('', frontpage, name='index'),
     path('about/', about, name='about'),
     path('blog/', include(blog_urls)),
-    path('members/', include('members.urls')), 
-    path('shop/', include('shop.urls')),
-    path('catalog/', include('catalog.urls')),
+    path('members/', include('apps.members.urls')), 
+    path('shop/', include('apps.shop.urls')),
+    path('catalog/', include('apps.catalog.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -42,11 +42,11 @@ INSTALLED_APPS = [
     'mptt',
     'imagekit',
     
-    'core.apps.CoreConfig',
-    'blog.apps.BlogConfig',
-    'members.apps.MembersConfig',
-    'catalog.apps.CatalogConfig',
-    'shop.apps.ShopConfig',
+    'apps.core.apps.CoreConfig',
+    'apps.blog.apps.BlogConfig',
+    'apps.members.apps.MembersConfig',
+    'apps.catalog.apps.CatalogConfig',
+    'apps.shop.apps.ShopConfig',
     
 ]
 
@@ -65,7 +65,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates', BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
