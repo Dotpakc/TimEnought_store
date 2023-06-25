@@ -1,0 +1,24 @@
+{% extends 'core/base.html' %}
+
+
+
+{% block content_shop %}
+
+<nav aria-label="breadcrumb" class='mt-4'>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="#">Home</a></li>
+      <li class="breadcrumb-item"><a href="#">Library</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Data</li>
+    </ol>
+  </nav>
+
+<div class="row my-2 gap-3">
+    {% include 'catalog/blocks/_list_category.html' %}
+
+    {% include 'catalog/blocks/_list_products.html' %}
+</div>
+
+
+
+</div>
+{% endblock %}
