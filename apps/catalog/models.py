@@ -1,3 +1,4 @@
+from django.contrib.admin import display
 from django.db import models
 from django.utils.safestring import mark_safe
 from django.urls import reverse
@@ -5,7 +6,7 @@ from django.conf import settings
 
 from mptt.models import MPTTModel, TreeForeignKey
 
-from imagekit.models import ProcessedImageField
+from imagekit.models import ProcessedImageField, ImageSpecField
 from imagekit.processors import ResizeToFill
 
 from ckeditor.fields import RichTextField
@@ -89,6 +90,19 @@ class Product(models.Model):
     def __str__(self):
         return self.name
     
+    def images(self):
+        return Image.objects.filter(product=self.id)
+    
+    def main_image(self):
+        image = Image.objects.filter(product=self.id, is_main=True)
+        if image:
+            return image
+        return self.images().first()
+    
+    def get_absolute_url(self):
+        return reverse('product', kwargs={'pk': self.id})
+    
+    
     
 class ProductCategory(models.Model):
     product = models.ForeignKey(Product, verbose_name='Товар', on_delete=models.CASCADE)
@@ -107,3 +121,40 @@ class ProductCategory(models.Model):
         verbose_name = 'Категорія товару'
         verbose_name_plural = 'Категорії товарів'
         
+
+class Image(models.Model):
+    image = ProcessedImageField(
+        verbose_name='Зображення',
+        upload_to='catalog/product/',
+        processors=[],
+        format='JPEG',
+        options={'quality': 100},
+        null=True
+        )
+    image_thumbnail = ImageSpecField(
+        source='image',
+        processors=[ResizeToFill(300, 200)],
+        format='JPEG',
+        options={'quality': 70}
+    )
+    product = models.ForeignKey(
+        to=Product,
+        verbose_name='Товар',
+        on_delete=models.CASCADE,
+        related_name='images'
+    )
+    is_main = models.BooleanField(verbose_name='Основне', default=False)
+    
+    @display(description='Зображення')
+    def image_tag_thumbnail(self):
+        if self.image:
+            if not self.image_thumbnail:
+                Image.objects.get(id=self.id)
+            return mark_safe(f'<img src="{self.image_thumbnail.url}" height="70">')
+        
+    @display(description='Зображення')
+    def image_tag(self):
+        if self.image:
+            if not self.image_thumbnail:
+                Image.objects.get(id=self.id)
+            return mark_safe(f'<img src="{self.image_thumbnail.url}">')

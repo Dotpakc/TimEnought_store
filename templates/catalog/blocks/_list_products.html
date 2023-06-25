@@ -9,7 +9,7 @@
     <div>
         {% for item in object_list %}
             <div>
-                <p>{{ item.name }}</p>
+                <p><a href='{{item.get_absolute_url}}'>{{ item.name }}</a></p>
             </div>
         {% endfor %}
 
