@@ -12,20 +12,79 @@
     </ol>
   </nav>
 
+
+
 <div class="row my-2 gap-3">
 
   <div class="col bg-body-tertiary rounded-3 p-4">
-    {% for image in product.images.all %}
-      <img src="{{ image.image_thumbnail.url }}" alt="" class='img-fluid'>
-      <br>
-    {% endfor %}
-    {{ product.name }}<br>
-    {{ product.price }}<br>
-    {{ product.description|safe }}<br>
+    
+    <h3 class="my-header">{{ product.name }}</h3>
+    <div class="row">
+        <div class="col-xs-12 col-md-6">
+            <div class="row">
+                {% for image in product.images.all %}
+                    <div class="col-6">
+                        <a href="{{ image.image.url }}" class="product-image"
+                           data-lightbox="roadtrip">
+                            <img src="{{ image.image_thumbnail.url }}" alt=""
+                                 class="img-thumbnail">
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+  
+        <div class="col-xs-12 col-md-6">
+            <p>Наличие:
+                {% if product.quantity %}
+                    {% if product.quantity >= 5 %}
+                        <b class="text-success">В наличии</b>
+                    {% else %}
+                        <b class="text-warning">Заканчивается</b>
+                    {% endif %}
+                {% else %}
+                    <b class="text-danger">Нет наличии</b>
+                {% endif %}
+            </p>
+            <b class="text-danger product-price">{{ product.price }} грн.</b>
+            <form action="">
+                <div class="input-group mb-3">
+                    <input type="number" min="1" step="1" max="100" value="1" class="form-control">
+                    <button class="btn btn-success" type="button" id="button-addon1">Купить</button>
+                </div>
+            </form>
+            <br>
+            <h4 class="text-center">Описание</h4>
+            <p>{{ product.description }}</p>
+        </div>
+  
+    </div>
+    <script>
+        lightbox.option({
+            'resizeDuration': 200,
+            'wrapAround': true
+        })
+    </script>
+
+
   </div>
+
+</div>
+
+
+
 </div>
 
 
 
-</div>
+
+
+
+
+
+
+
+
+
+
 {% endblock %}
