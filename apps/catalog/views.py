@@ -13,7 +13,7 @@ class ProductByCategoryView(ListView):
     template_name = 'catalog/category.html'
     category = None
     categories = Category.objects.all()
-    
+    paginate_by = 6
     
     def get_queryset(self):
         self.category = Category.objects.get(slug=self.kwargs['slug'])
