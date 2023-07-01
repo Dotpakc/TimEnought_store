@@ -20,13 +20,15 @@ admin.site.register(Image)
 class CategoryAdmin(admin.ModelAdmin):
     # list_display = ('name', 'image_tag_thumbnail')
     prepopulated_fields = {'slug': ('name',)}
-    
     readonly_fields = ('image_tag_thumbnail',)
+    fields = ('name', 'slug', 'parent', 'description','image_tag_thumbnail', 'image',
+                'meta_title', 'meta_description', 'meta_keywords')
 
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    fields = ('name', 'description', 'quantity', 'price')
+    fields = ('name', 'description', 'quantity', 'price',
+              'meta_title', 'meta_description', 'meta_keywords')
     inlines = (ProductCategoryInline, ImageInline)
 
 
