@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'mptt',
     'imagekit',
     
+    'apps.main.apps.MainConfig',
     'apps.core.apps.CoreConfig',
     'apps.blog.apps.BlogConfig',
     'apps.members.apps.MembersConfig',
