@@ -17,6 +17,7 @@ class CatalogIndexView(ListViewBreadcrumbMixin):
     def get_breadcrumbs(self):
         self.breadcrumbs = {
            'current' : PAGE_NAMES['catalog'],
+
         } # вказуємо поточну сторінку ДОПИСАТИ
         return self.breadcrumbs
     
@@ -37,11 +38,49 @@ class ProductByCategoryView(ListViewBreadcrumbMixin):
         context['categories'] = self.categories
         return context
     
+    def get_breadcrumbs(self):
+        breadcrumbs = {reverse('catalog'): PAGE_NAMES['catalog']}
+        if self.category.parent:
+            linkss = []
+            parent = self.category.parent
+            while parent is not None:
+                linkss.append(
+                    (
+                        reverse('category', kwargs={'slug': parent.slug}),
+                        parent.name
+                    )
+                )
+                parent = parent.parent
+            for url, name in linkss[::-1]:
+                breadcrumbs[url] = name
+                #breadcrumbs.update({url: name}) # або так
+        breadcrumbs.update({'current': self.category.name})
+        return breadcrumbs
 
 class ProductDetailView(DetailViewBreadcrumbMixin):
     model = Product
     template_name = 'catalog/product.html'
     context_object_name = 'product'
     
-    
+    def get_breadcrumbs(self):
+        breadcrumbs = {reverse('catalog'): PAGE_NAMES['catalog']}
+        category = self.object.main_category()
+        if category:
+            if category.parent:
+                linkss = []
+                parent = category.parent
+                while parent is not None:
+                    linkss.append(
+                        (
+                            reverse('category', kwargs={'slug': parent.slug}),
+                            parent.name
+                        )
+                    )
+                    parent = parent.parent
+                for url, name in linkss[::-1]:
+                    breadcrumbs[url] = name
+                    #breadcrumbs.update({url: name}) # або так
+            breadcrumbs.update({reverse('category', kwargs={'slug': category.slug}): category.name})
+        breadcrumbs.update({'current': self.object.name})
+        return breadcrumbs
 
