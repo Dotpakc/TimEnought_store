@@ -1,0 +1,25 @@
+{{breadcrumbs}}
+<nav aria-label=" breadcrumb " class='bg-body-tertiary rounded-3 mt-2 p-3 justify-content-center  '>
+    <ol class="breadcrumb my-0">
+      <li class="breadcrumb-item"><a href="{%url 'index' %}"><i class="fas fa-home"></i></a></li>
+
+        
+        {% for url, name in breadcrumbs.items %}
+            
+            {% if url == 'current' %}
+            <li class="breadcrumb-item active" aria-current="page">{{ name }}</li>
+            {% else %}
+                <li class="breadcrumb-item"><a href="{{ url }}">{{ name }}</a></li>
+            {% endif %}
+                
+
+            
+        {% endfor %}
+            
+
+
+
+      {% comment %} <li class="breadcrumb-item"><a href="#">Library</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Data</li> {% endcomment %}
+    </ol>
+</nav>

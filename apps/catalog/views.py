@@ -1,15 +1,26 @@
-from typing import Any, Dict
-from django.views.generic import ListView, DetailView
+from django.urls import reverse
+
+from config.settings import PAGE_NAMES
+
 from .models import Category, Product
 
-class CatalogIndexView(ListView):
+
+from apps.main.mixins import ListViewBreadcrumbMixin, DetailViewBreadcrumbMixin
+
+class CatalogIndexView(ListViewBreadcrumbMixin):
     template_name = 'catalog/index.html'
     model = Category
     
     def get_queryset(self):
         return Category.objects.filter(parent=None)
     
-class ProductByCategoryView(ListView):
+    def get_breadcrumbs(self):
+        self.breadcrumbs = {
+           'current' : PAGE_NAMES['catalog'],
+        } # вказуємо поточну сторінку ДОПИСАТИ
+        return self.breadcrumbs
+    
+class ProductByCategoryView(ListViewBreadcrumbMixin):
     template_name = 'catalog/category.html'
     category = None
     categories = Category.objects.all()
@@ -27,7 +38,10 @@ class ProductByCategoryView(ListView):
         return context
     
 
-class ProductDetailView(DetailView):
+class ProductDetailView(DetailViewBreadcrumbMixin):
     model = Product
     template_name = 'catalog/product.html'
     context_object_name = 'product'
+    
+    
+

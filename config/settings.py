@@ -155,3 +155,9 @@ CKEDITOR_CONFIGS = {
         'width': 1200
     },
 }
+
+PAGE_NAMES = {
+    'index': 'Головна',
+    'blog': 'Блог',
+    'catalog': 'Каталог',
+}

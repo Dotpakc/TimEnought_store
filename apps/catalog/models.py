@@ -104,6 +104,11 @@ class Product(MetaTagMixin):
     def get_absolute_url(self):
         return reverse('product', kwargs={'pk': self.id})
     
+    def main_category(self):
+        category = self.category.filter(category__productcategory__is_main=True).first() # вибираємо категорію яка має is_main=True
+        if category:
+            return category
+        return self.category.first()
     
     
 class ProductCategory(models.Model):
