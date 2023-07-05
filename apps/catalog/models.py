@@ -4,6 +4,8 @@ from django.utils.safestring import mark_safe
 from django.urls import reverse
 from django.conf import settings
 
+from apps.main.mixins import MetaTagMixin
+
 from mptt.models import MPTTModel, TreeForeignKey
 
 from imagekit.models import ProcessedImageField, ImageSpecField
@@ -14,7 +16,7 @@ from ckeditor.fields import RichTextField
 MEDIA_ROOT = settings.MEDIA_ROOT
 
 
-class Category(MPTTModel):
+class Category(MPTTModel, MetaTagMixin):
     name = models.CharField(verbose_name='Назва', max_length=255)
     slug = models.SlugField(verbose_name='URL', max_length=255, unique=True)
     description = models.TextField(verbose_name='Опис', blank=True, null=True)
@@ -67,7 +69,7 @@ class Category(MPTTModel):
         verbose_name_plural = 'Категорії'
         
         
-class Product(models.Model):
+class Product(MetaTagMixin):
     name = models.CharField(verbose_name='Назва', max_length=255)
     description = RichTextField(verbose_name='Опис', blank=True, null=True)
     quantity = models.PositiveIntegerField(verbose_name='Кількість', default=0)
@@ -102,6 +104,11 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse('product', kwargs={'pk': self.id})
     
+    def main_category(self):
+        category = self.category.filter(category__productcategory__is_main=True).first() # вибираємо категорію яка має is_main=True
+        if category:
+            return category
+        return self.category.first()
     
     
 class ProductCategory(models.Model):

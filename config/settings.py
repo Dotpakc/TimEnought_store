@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'mptt',
     'imagekit',
     
+    'apps.main.apps.MainConfig',
     'apps.core.apps.CoreConfig',
     'apps.blog.apps.BlogConfig',
     'apps.members.apps.MembersConfig',
@@ -153,4 +154,10 @@ CKEDITOR_CONFIGS = {
         'height': 300,
         'width': 1200
     },
+}
+
+PAGE_NAMES = {
+    'index': 'Головна',
+    'blog': 'Блог',
+    'catalog': 'Каталог',
 }
