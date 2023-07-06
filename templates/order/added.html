@@ -1,0 +1,24 @@
+{% extends "core/base.html" %}
+
+{% block breadcrumbs %}
+    {% include '_breadcrumbs.html' %}
+{% endblock %}
+
+
+{% block content_shop %}
+
+<div class="row my-2 gap-3">
+    {% comment %} {% include 'catalog/blocks/_list_category.html' %} {% endcomment %}
+
+    <div class="col bg-body-tertiary rounded-3 p-4">
+
+        <h3 class = "mb-4"> Кошик </h3>
+        <p> Товар <a href="{% url 'product'  pk=product.id  %}">{{ product.name }}</a> додано до кошика </p>
+
+        {% include 'order/blocks/_cart.html' %}
+        
+    </div>
+</div>
+
+{% endblock %}
+

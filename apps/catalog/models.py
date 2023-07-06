@@ -96,16 +96,19 @@ class Product(MetaTagMixin):
         return Image.objects.filter(product=self.id)
     
     def main_image(self):
-        image = Image.objects.filter(product=self.id, is_main=True)
+        image = Image.objects.filter(product=self.id, is_main=True).first()
         if image:
-            return image       
-        return Image.objects.filter(product=self.id).first()
+            return image      
+        image = Image.objects.filter(product=self.id).first()
+        if image:
+            return image
+        return Image.objects.filter().first()
     
     def get_absolute_url(self):
         return reverse('product', kwargs={'pk': self.id})
     
     def main_category(self):
-        category = self.category.filter(category__productcategory__is_main=True).first() # вибираємо категорію яка має is_main=True
+        category = self.category.filter(productcategory__is_main=True).first() # вибираємо категорію яка має is_main=True
         if category:
             return category
         return self.category.first()
