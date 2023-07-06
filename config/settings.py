@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'mptt',
     'imagekit',
+    'mathfilters',
     
     'apps.main.apps.MainConfig',
     'apps.core.apps.CoreConfig',

@@ -12,8 +12,7 @@
 
     <div class="col bg-body-tertiary rounded-3 p-4">
 
-        <h3 class = "mb-4"> Кошик </h3>
-        <p> Товар <a href="{% url 'product'  pk=product.id  %}">{{ product.name }}</a> додано до кошика </p>
+        <h3 class = "mb-4">Кошик</h3>
 
         {% include 'order/blocks/_cart.html' %}
         

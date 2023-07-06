@@ -4,12 +4,17 @@ from config.settings import PAGE_NAMES
 
 from .models import Category, Product
 
-
+from apps.order.views import get_cart_data
 from apps.main.mixins import ListViewBreadcrumbMixin, DetailViewBreadcrumbMixin
 
 class CatalogIndexView(ListViewBreadcrumbMixin):
     template_name = 'catalog/index.html'
     model = Category
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cart'] = get_cart_data(self.request.user.id)
+        return context
     
     def get_queryset(self):
         return Category.objects.filter(parent=None)
@@ -36,6 +41,7 @@ class ProductByCategoryView(ListViewBreadcrumbMixin):
         context = super().get_context_data(**kwargs)
         context['category'] = self.category
         context['categories'] = self.categories
+        context['cart'] = get_cart_data(self.request.user.id)
         return context
     
     def get_breadcrumbs(self):
@@ -61,6 +67,11 @@ class ProductDetailView(DetailViewBreadcrumbMixin):
     model = Product
     template_name = 'catalog/product.html'
     context_object_name = 'product'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cart'] = get_cart_data(self.request.user.id)
+        return context
     
     def get_breadcrumbs(self):
         breadcrumbs = {reverse('catalog'): PAGE_NAMES['catalog']}
