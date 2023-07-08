@@ -89,7 +89,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'timenought_store_db',
+        'NAME': 'timenought_store_db_new',
         'USER': 'timenought_store_db_user',
         'PASSWORD': '1234',
         'HOST': '127.0.0.1',
@@ -162,3 +162,5 @@ PAGE_NAMES = {
     'blog': 'Блог',
     'catalog': 'Каталог',
 }
+
+AUTH_USER_MODEL='members.UserProfile'

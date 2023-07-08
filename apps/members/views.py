@@ -50,7 +50,7 @@ def profile_view(request):
 @login_required
 def profile_edit(request):
     if request.method == 'POST':
-        form = EditProfileForm(request.POST, instance=request.user)
+        form = EditProfileForm(request.POST, request.FILES, instance=request.user)
         
         if form.is_valid():
             form.save()
