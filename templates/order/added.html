@@ -18,6 +18,10 @@
         {% include 'order/blocks/_cart.html' %}
         
     </div>
+    <div class="d-flex justify-content-between">
+        <a href="{% url 'catalog' %}" class="btn btn-outline-primary">Продовжити покупки</a>
+        <a href="{% url 'create_order' %}" class="btn btn-primary">Оформити замовлення</a>
+    </div>
 </div>
 
 {% endblock %}

@@ -1,10 +1,10 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from django.contrib.auth.models import User 
+from django.contrib.auth import get_user_model
 
 class SingupForm(UserCreationForm):
     class Meta:
-        model = User
+        model = get_user_model()
         fields = ('username','email','password1','password2')
         
     def __init__(self, *args, **kwargs):
@@ -25,22 +25,23 @@ class SingupForm(UserCreationForm):
 
 
 class EditProfileForm(UserChangeForm):
-    password = forms.CharField(widget=forms.TextInput(attrs={'type':'hidden'}), required=False)
+    # password = forms.CharField(widget=forms.TextInput(attrs={'type':'hidden'}), required=False)
     class Meta:
-        model = User
-        fields = ('username','email','first_name','last_name')
+        model = get_user_model()
+        fields = ('username','email','first_name','last_name','image')
         widgets = {
             'username':forms.TextInput(attrs={'class':'form-control'}),
             'email':forms.TextInput(attrs={'class':'form-control'}),
             'first_name':forms.TextInput(attrs={'class':'form-control'}),
             'last_name':forms.TextInput(attrs={'class':'form-control'}),
+            'image':forms.FileInput(attrs={'class':'form-control'}),
         }
         
     def save(self, commit=True):
         user = super().save(commit=False)
         user.email = self.cleaned_data['email']
-        password = self.cleaned_data["new_password1"]
-        self.user.set_password(password)
+        # password = self.cleaned_data["new_password1"]
+        # self.user.set_password(password)
         
         if commit:
             user.save()

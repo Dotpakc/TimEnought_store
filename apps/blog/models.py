@@ -1,6 +1,6 @@
 from django.db import models
 from ckeditor.fields import RichTextField
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.utils.text import slugify
 
 
@@ -15,7 +15,7 @@ class Article(models.Model):
     )
     
     
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='articles', verbose_name='Автор', default=1)
+    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='articles', verbose_name='Автор', default=1)
     category = models.ForeignKey('Category', on_delete=models.CASCADE, related_name='articles', default=1, verbose_name='Категория')
     tags = models.ManyToManyField('Tag', related_name='articles', verbose_name='Теги')
     title = models.CharField(max_length=255, verbose_name='Заголовок')
