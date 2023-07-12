@@ -1,3 +1,4 @@
+from django.db import transaction
 from django.shortcuts import render , redirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
@@ -9,7 +10,8 @@ from django.views.generic import View
 from config.settings import PAGE_NAMES
 
 from .forms import AddCartForm, OrderCreateForm
-from .models import Cart
+from .models import Cart, Order, OrderProduct
+from apps.catalog.models import Product
 
 # Create your views here.
 
@@ -101,8 +103,18 @@ class OrderCreateView(LoginRequiredMixin, View):
         form = OrderCreateForm(request.POST)
         if form.is_valid():
             order = form.save()
-            # Очистити корзину
-            Cart.objects.filter(user=user.id).delete()
+            # Очистити корзину і додати товари до замовлення в одній транзакції
+            with transaction.atomic():
+                for row in cart['cart']:
+                    quantity = row.quantity if row.quantity >= row.product.quantity else row.product.quantity
+                    OrderProduct.objects.create(
+                        order=order,
+                        product=row.product,
+                        price=row.product.price,
+                        quantity=quantity
+                    )
+                    Product.objects.filter(id=row.product.id).update(quantity=row.product.quantity - quantity)
+                Cart.objects.filter(user=user.id).delete()
             return render(request,
                             'order/order_created.html',
                             {'order': order,

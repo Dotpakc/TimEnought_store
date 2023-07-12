@@ -40,4 +40,15 @@ class Order(models.Model):
         return f'Замовлення №{self.id}'
         
         
-        
+class OrderProduct(models.Model):
+    order = models.ForeignKey(Order, verbose_name='Замовлення', related_name='products', on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, verbose_name='Товар', on_delete=models.CASCADE)
+    price = models.PositiveIntegerField(verbose_name='Ціна', default=0)
+    quantity = models.PositiveIntegerField(verbose_name='Кількість', default=1)
+    
+    def __str__(self):
+        return f'{self.product.name} - {self.quantity}'
+    
+    class Meta:
+        verbose_name = 'Товар замовлення'
+        verbose_name_plural = 'Товари замовлення'
