@@ -1,5 +1,5 @@
 from django.db import transaction
-from django.shortcuts import render , redirect
+from django.shortcuts import render , redirect, get_object_or_404
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -99,14 +99,17 @@ class OrderCreateView(LoginRequiredMixin, View):
         
         data = request.POST.copy()
         data.update(user=user.id)
+        data.update(total=cart['total'])
+        data.update(paid=False)
         request.POST = data
         form = OrderCreateForm(request.POST)
+        print(request.POST)
         if form.is_valid():
             order = form.save()
             # Очистити корзину і додати товари до замовлення в одній транзакції
             with transaction.atomic():
                 for row in cart['cart']:
-                    quantity = row.quantity if row.quantity >= row.product.quantity else row.product.quantity
+                    quantity = row.quantity if row.quantity < row.product.quantity else row.product.quantity
                     OrderProduct.objects.create(
                         order=order,
                         product=row.product,
@@ -134,4 +137,9 @@ class OrderCreateView(LoginRequiredMixin, View):
                           reverse('cart'): 'Кошик'}
         breadcrumbs['current'] = 'Оформлення замовлення'
         return breadcrumbs
-        
+
+class DeleteFromCartView(LoginRequiredMixin, View):
+    def get(self, request, pk):
+        get_object_or_404(Cart, user=request.user.id, product=pk).delete()
+        # Cart.objects.filter(user=request.user.id, product=pk).delete()
+        return redirect(reverse('cart'))
