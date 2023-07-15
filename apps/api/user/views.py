@@ -1,0 +1,36 @@
+from django.contrib.auth import get_user_model,authenticate
+from rest_framework import generics, status
+from rest_framework.exceptions import AuthenticationFailed
+
+from rest_framework.authtoken.models import Token
+from rest_framework.response import Response
+
+from .serializers import  LoginSerializer, TokenSerializer
+
+
+
+class LoginView(generics.GenericAPIView):
+    serializer_class = LoginSerializer
+    
+    def post(self, request, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = authenticate(**serializer.data)
+        if user:
+            if user.is_active:
+                token = Token.objects.filter(user=user).first()
+                if not token:
+                    token = Token.objects.create(user=user)
+                
+                token_serializer = TokenSerializer(data={'token': token.key})
+                token_serializer.is_valid(raise_exception=True)
+                return Response(
+                    data = token_serializer.data,
+                    status=status.HTTP_200_OK
+                )
+            raise AuthenticationFailed('Ваш аккаунт забанен, гуляй собі',
+                                        status.HTTP_403_FORBIDDEN)
+        raise AuthenticationFailed('Неправильний логін або пароль',
+                                   status.HTTP_401_UNAUTHORIZED)
+
+    
