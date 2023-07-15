@@ -21,7 +21,17 @@ from django.conf import settings
 
 from apps.core.views import frontpage, about
 from apps.blog.urls import urlpatterns as blog_urls
-from django.contrib.auth import urls
+
+
+from rest_framework import routers
+from apps.api.views import UserViewSet
+
+router = routers.DefaultRouter()
+router.register(r'users', UserViewSet)
+
+
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,4 +42,8 @@ urlpatterns = [
     path('shop/', include('apps.shop.urls')),
     path('catalog/', include('apps.catalog.urls')),
     path('order/', include('apps.order.urls')),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('api/v2/', include('apps.api.urls')),
+    path('api/', include(router.urls)),
+    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
