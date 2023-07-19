@@ -1,6 +1,7 @@
 from django.contrib.admin import display
 from django.db import models
 from django.utils.safestring import mark_safe
+from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.conf import settings
 
@@ -83,6 +84,8 @@ class Product(MetaTagMixin):
         related_name='products',
         blank=True        
     )
+    user = models.ForeignKey( get_user_model(), verbose_name='Власник', on_delete=models.CASCADE, blank=True, null=True)
+    is_checked = models.BooleanField(verbose_name='Перевірено', default=False)
     
     class Meta:
         ordering = ('-created_at',)
