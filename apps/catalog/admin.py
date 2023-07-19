@@ -27,8 +27,10 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    fields = ('name', 'description', 'quantity', 'price',
+    fields = ('name', 'description', 'quantity', 'price', 'is_checked', 'user',
               'meta_title', 'meta_description', 'meta_keywords')
+    list_display = ('id', 'name', 'user', 'quantity', 'price', 'is_checked')
+    list_display_links = ('id', 'name')
     inlines = (ProductCategoryInline, ImageInline)
 
 
