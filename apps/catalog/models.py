@@ -154,7 +154,6 @@ class Image(models.Model):
         to=Product,
         verbose_name='Товар',
         on_delete=models.CASCADE,
-        related_name='images'
     )
     is_main = models.BooleanField(verbose_name='Основне', default=False)
     

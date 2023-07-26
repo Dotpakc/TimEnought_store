@@ -10,17 +10,18 @@ from django.views.generic import View
 from config.settings import PAGE_NAMES
 
 from .forms import AddCartForm, OrderCreateForm
-from .models import Cart, Order, OrderProduct
+from .models import Cart, Order, OrderProduct, Favorite
 from apps.catalog.models import Product
 
 # Create your views here.
 
 def get_cart_data(user_id):
     cart = Cart.objects.filter(user=user_id)
+    favorites = Favorite.objects.filter(user=user_id)
     total = 0
     for row in cart:
         total += row.product.price * row.quantity
-    return {'cart': cart, 'total': total}
+    return {'cart': cart, 'total': total, 'favorites': favorites}
 
 
 

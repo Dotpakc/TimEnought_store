@@ -12,6 +12,9 @@
 
 {% block content_shop %}
 
+<script>
+
+</script>
 
 
 <div class="row my-2 gap-3">
@@ -54,6 +57,7 @@
                             <div class="input-group mb-3">
                                 <input type="number" min="1" step="1" max="{{ product.quantity }}" value="1" class="form-control" name="quantity">
                                 <button class="btn btn-success" type="submit" id="button-addon1"><i class="fas fa-shopping-cart"></i> Добавить в корзину</button>
+                                <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i class="far fa-heart"></i></button>
                             </div>
                         </form>
                     {% else %}
@@ -69,16 +73,40 @@
 
             <br>
             <h4 class="text-center">Описание</h4>
-            <p>{{ product.description|safe }}</p>
+            <p></p>
         </div>
   
     </div>
-    <script>
-        lightbox.option({
-            'resizeDuration': 200,
-            'wrapAround': true
-        })
-    </script>
+
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <a class="nav-link active" data-bs-toggle="tab" href="#discript" aria-selected="true" role="tab" tabindex="-1">Описание</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link " data-bs-toggle="tab" href="#properties"  role="tab">Характеристики</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link " data-bs-toggle="tab" href="#reviews"  role="tab">Відгуки</a>
+        </li>      
+    </ul>
+    <div id="myTabContent" class="tab-content">
+    <div class="tab-pane fade active show" id="discript" role="tabpanel">
+        <p>{{ product.description|safe }}</p>
+    </div>
+    <div class="tab-pane fade" id="properties" role="tabpanel">
+        <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit.</p>
+    </div>
+    <div class="tab-pane fade" id="reviews" role="tabpanel">
+        {% comment %} Форма для відгуків {% endcomment %}
+        <form method="post" action='shop/reviews'>
+            {% csrf_token %}
+            {{form.as_p}}
+            <input class="btn btn-primary" type="submit" value="Додати коментар">
+        </form>
+    </div>
+    </div>
+
+    
 
 
   </div>
@@ -93,7 +121,57 @@
 
 
 
+<script>
+    lightbox.option({
+        'resizeDuration': 200,
+        'wrapAround': true
+    });
 
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
+    $("#button-addon2").click(function(){
+        $.ajax({
+            url: '/api/v2/order/favorites/',         /* Куда отправить запрос */
+            method: 'post',             /* Метод запроса (post или get) */
+            dataType: 'json',          /* Тип данных в ответе (xml, json, script, html). */
+            data: {'product': {{product.id}} },     /* Данные передаваемые в массиве */
+            success: function(data){   /* функция которая будет выполнена после успешного запроса.  */
+                $("#button-addon2").html('<i class="fas fa-heart"></i> Добавлено в избранное');
+            }
+        }).fail(function(data) {
+            alert(data.responseText);
+        });
+    });
+    
+</script>
 
 
 

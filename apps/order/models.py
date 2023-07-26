@@ -17,7 +17,11 @@ class Cart(models.Model):
     
     def __str__(self):
         return f'{self.product.name} - {self.quantity}'
-    
+
+class Favorite(models.Model):
+    product = models.ForeignKey(Product, verbose_name='Товар', on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), verbose_name='Користувач', on_delete=models.CASCADE, blank=True)
+       
     
 class Order(models.Model):
     STATUC_CHOICES =(
