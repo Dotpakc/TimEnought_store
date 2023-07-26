@@ -49,6 +49,8 @@ class ProductReadSerializer(serializers.ModelSerializer):
             return serializers.data
         except AttributeError:
             return None
+        
+
     
     class Meta:
         model = Product
@@ -62,7 +64,8 @@ class ProductReadSerializer(serializers.ModelSerializer):
             'image_main',
             'images'
         )
-            
+ 
+         
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image

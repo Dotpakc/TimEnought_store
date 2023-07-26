@@ -44,6 +44,7 @@ class ImageViewSet(viewsets.ModelViewSet):
     serializer_class = ImageSerializer
     permission_classes = (permissions.IsAdminUser,)
     
+        
 class CategoryViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAdminUser,)
     serializer_class = CategorySerializer
