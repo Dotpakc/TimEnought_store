@@ -52,6 +52,14 @@
               {% comment %} <li><a href="{% url 'random_article' %}" class="nav-link px-2 text-white">Рандоман стаття</a></li> {% endcomment %}
               <li><a href="{% url 'about' %}" class="nav-link px-2 text-white">О нас</a></li>
               
+              {% for page in page_navigator %}
+                {% if page == '...' %}
+                  <li><a href="#" class="nav-link px-2 text-white">{{page}}</a></li>
+                {% else %}
+                  <li><a href="{{page.get_absolute_url}}" class="nav-link px-2 text-white">{{page}}</a></li>
+                {% endif %}
+              {% endfor %}
+                
             </ul>
     
             <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" method="get" action="{% url 'search' %}">
