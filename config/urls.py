@@ -19,9 +19,6 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 
-from apps.core.views import frontpage, about
-from apps.blog.urls import urlpatterns as blog_urls
-
 
 from rest_framework import routers
 from apps.api.views import UserViewSet
@@ -35,9 +32,8 @@ router.register(r'users', UserViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', frontpage, name='index'),
-    path('about/', about, name='about'),
-    path('blog/', include(blog_urls)),
+    path('', include('apps.core.urls')),
+    path('blog/', include('apps.blog.urls')),
     path('members/', include('apps.members.urls')), 
     path('shop/', include('apps.shop.urls')),
     path('catalog/', include('apps.catalog.urls')),

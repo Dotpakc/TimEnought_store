@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     
     
-    'apps.main.apps.MainConfig',
+    # 'apps.main.apps.MainConfig', # видалили
     'apps.core.apps.CoreConfig',
     'apps.blog.apps.BlogConfig',
     'apps.members.apps.MembersConfig',
