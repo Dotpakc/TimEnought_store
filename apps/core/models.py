@@ -10,8 +10,9 @@ class Page(MetaTagMixin):
     slug = models.SlugField(verbose_name='URL', max_length=255, unique=True)
     content = RichTextField(verbose_name='Контент', blank=True, null=True)
     is_active = models.BooleanField(verbose_name='Активна', default=True)
-
-    
+    index = models.IntegerField(verbose_name='Індекс сортування', default=-1, blank=True)
+        
+        
     def __str__(self):
         return self.name
     
