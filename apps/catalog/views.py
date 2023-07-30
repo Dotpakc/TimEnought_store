@@ -5,7 +5,7 @@ from config.settings import PAGE_NAMES
 from .models import Category, Product
 
 from apps.order.views import get_cart_data
-from apps.main.mixins import ListViewBreadcrumbMixin, DetailViewBreadcrumbMixin
+from apps.core.mixins import ListViewBreadcrumbMixin, DetailViewBreadcrumbMixin
 
 class CatalogIndexView(ListViewBreadcrumbMixin):
     template_name = 'catalog/index.html'

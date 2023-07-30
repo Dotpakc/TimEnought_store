@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.conf import settings
 
-from apps.main.mixins import MetaTagMixin
+from apps.core.mixins import MetaTagMixin
 
 from mptt.models import MPTTModel, TreeForeignKey
 

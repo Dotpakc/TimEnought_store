@@ -1,4 +1,4 @@
-<div class='row bg-body-tertiary rounded-3 mt-2 p-3 '>
+<div class='row bg-body-tertiary rounded-3 mt-4 p-3 '>
   <nav aria-label=" breadcrumb " class='col  align-items-center d-flex'>
       <ol class="breadcrumb my-0">
         <li class="breadcrumb-item"><a href="{%url 'index' %}"><i class="fas fa-home"></i></a></li>
@@ -22,9 +22,10 @@
       </ol>
       
   </nav>
-
+  {% if request.user.is_authenticated %}
   <div class='col-3 d-flex justify-content-end align-items-center'>
     <a href="" class='btn btn-primary mx-2'><i class="fas fa-heart"></i> Favorite <span class='badge bg-danger'>{% if favorite.favorite %}{{favorite.favorite|length}}{% else %}0{% endif %}</span></a>
     <a href="{% url 'cart' %}" class='btn btn-primary'><i class="fas fa-shopping-cart"></i> Cart <span class='badge bg-danger'>{% if cart.cart %}{{cart.cart|length}}{% else %}0{% endif %}</span></a>
   </div>
+  {% endif %}
 </div>

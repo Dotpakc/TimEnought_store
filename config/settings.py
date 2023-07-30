@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     
     
-    'apps.main.apps.MainConfig',
+    # 'apps.main.apps.MainConfig', # видалили
     'apps.core.apps.CoreConfig',
     'apps.blog.apps.BlogConfig',
     'apps.members.apps.MembersConfig',
@@ -85,6 +85,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'apps.core.context_processors.page_navigator',
             ],
         },
     },
