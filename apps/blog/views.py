@@ -7,6 +7,7 @@ from django.core.paginator import Paginator
 
 from .forms import CommentForm, ArticleForm
 from .models import Article
+from apps.catalog.models import Product
 # Create your views here.
 
 @login_required()
@@ -50,13 +51,11 @@ def articles_tag_list(request, tag):
 def tag_list(request, tag):
    pass
 
-@login_required()
 def search(request):
-   query = request.GET.get('query', '')
-   
-   articles = Article.objects.filter(Q(title__icontains=query) | Q(content__icontains=query) | Q(content_preview__icontains=query), status='active')
-   
-   return render(request, 'blog/search.html', {'articles': articles, 'title': "Пошук по сайту", 'query': query})
+    query = request.GET.get('query', '')
+#    articles = Article.objects.filter(Q(title__icontains=query) | Q(content__icontains=query) | Q(content_preview__icontains=query), status='active')
+    products = Product.objects.filter(Q(name__icontains=query) | Q(description__icontains=query))
+    return render(request, 'blog/search.html', {'products': products, 'title': "Пошук по сайту", 'query': query})
 
 
 @login_required()

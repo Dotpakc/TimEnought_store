@@ -1,26 +1,23 @@
-{% extends 'core/base.html'%}
+{% extends 'core/base.html' %}
 
-{% block title %} {{title}} {% endblock %}
 
-{% block content %}
-    <h1>Результат пошуку - {{query}}</h1>
-    <div class="row row-cols-3 g-4">
+{% block meta %}
+    {% include '_meta_tags.html' with meta_title=category.get_meta_title meta_description=category.meta_description meta_keywords=category.meta_keywords %}
+{% endblock %}
 
-        {% for article in articles %}
-            <div class="col">
-                <div class="card">
-                    <div class="card-body">
-                    <h5 class="card-title">{{article.title}}</h5>
-                    <p class="card-text">{{article.content}}</p>
-                    <a href="{% url 'details' article.slug %}" class="btn btn-primary">Details</a>
-                    </div>
-                </div>
-            </div>
-            {% empty %}
-                <p>No articles found</p>
-            {% endfor %}
+{% block breadcrumbs %}
+    {% include '_breadcrumbs.html' %}
+{% endblock %}
+
+
+{% block content_shop %}
+
+<div class="row my-2 gap-3">
+
+    {% include 'catalog/blocks/_list_products.html' %}
+</div>
 
 
 
-    </div>
+</div>
 {% endblock %}

@@ -1,10 +1,12 @@
 from typing import Any
 from django.db import models
 from django.shortcuts import render
+from django.http import JsonResponse
 from django.urls import reverse
 
 from .mixins import DetailViewBreadcrumbMixin
 from .models import Page
+from apps.catalog.models import Product
 
 
 # Create your views here.
@@ -30,3 +32,14 @@ class PageDetailView(DetailViewBreadcrumbMixin):
             'current': self.object.name
         }
         return self.breadcrumbs
+    
+def autocomplete(request):
+    if request.method == 'GET':
+        query = request.GET.get('term', '')
+        if query:
+            results = Product.objects.filter(name__icontains=query)
+        else:
+            results = Product.objects.all()
+        results_json = []
+        results_json = [result.name for result in results]
+        return JsonResponse(results_json, safe=False)
