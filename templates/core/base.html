@@ -20,10 +20,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
     <link href="{% static 'lightbox/css/lightbox.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
 
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
-    <script src="{% static 'lightbox/js/lightbox.min.js' %}"></script>s
+    <script src="{% static 'lightbox/js/lightbox.min.js' %}"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   </head>
 <body>
   
@@ -63,7 +66,7 @@
             </ul>
     
             <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" method="get" action="{% url 'search' %}">
-              <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search" name='query'>
+              <input type="search" id="autocomplete"  class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search" name='query'>
             </form>
     
             <div class="text-end">
@@ -109,5 +112,10 @@
 
     </div>
     
+    <script>
+      $( "#autocomplete" ).autocomplete({
+        source: "{% url 'autocomplete' %}",
+      });
+    </script>
 </body>
 </html>
