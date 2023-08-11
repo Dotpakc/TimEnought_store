@@ -1,0 +1,23 @@
+{% load static%}
+   
+   <!-- Карточка товару -->
+   <div class="card">
+    <!-- Зображення товару -->
+    {% if product.main_image %}
+        <img src = " {{ product.main_image.image_thumbnail.url }} " alt="{{ product.name }}" class="card-img-top">
+    {% else %}
+        <img src="{% static 'img/tmb.png' %}" alt="{{ product.name }}" class="card-img-top">
+    {% endif %}
+    <div class="card-body">
+        <!-- Назва товару -->
+        <h5 class="card-title">{{ product.name }}</h5>
+
+        <!-- Опис товару -->
+        <p class="card-text">{{ product.description| safe }}</p>
+
+        <!-- Ціна товару -->
+        <p class="card-text">Ціна: {{ product.price }} грн.</p>
+
+        <!-- Кнопка для детальнішої інформації або додавання в кошик, то що потрібно -->
+        <a href="{{product.get_absolute_url}}" class="btn btn-primary">Детальніше</a>
+    </div>

@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-ntag=n-^bktll^bnfos2@mkr56!u)#4jd@t^e!gh-n3sa41kh*
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
+DOMAIN = 'localhost:8000'
 INTERNAL_IPS = [
     # ...
     "127.0.0.1",
@@ -98,13 +98,17 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'timenought_store_db_new',
+    #     'USER': 'timenought_store_db_user',
+    #     'PASSWORD': '1234',
+    #     'HOST': '127.0.0.1',
+    #     'PORT': '5432'        
+    # }
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'timenought_store_db_new',
-        'USER': 'timenought_store_db_user',
-        'PASSWORD': '1234',
-        'HOST': '127.0.0.1',
-        'PORT': '5432'        
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 

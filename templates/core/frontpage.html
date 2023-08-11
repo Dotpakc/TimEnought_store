@@ -10,4 +10,20 @@
 {% block content %}
     <h1>{{title}}</h1>
     <p> Тут будет информация головної сторінки</p>
+    <div class="container">
+        {% for products_set in products_sets %}
+        <div class="row">
+            
+                <h2>{{products_set.name}}</h2>
+                <div class="owl-carousel">
+
+                    {% for product in products_set.products.all %}
+                        {% include 'core/blocks/_card_product.html' with product=product %}
+                    {% endfor %}
+                </div>
+            
+        </div>
+        {% endfor %}
+    </div>
+
 {% endblock %}

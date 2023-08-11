@@ -74,6 +74,34 @@
                   </div>
                   <hr>
                   <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Refferal link</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                     {{user.get_referal_link}}
+                      
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Всього запрошено</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                     {{user.referals.all.count}}👨‍🎓
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Баланс</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                     {{user.balance}}₴💰
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
                     <div class="col-sm-12">
                       <a class="btn btn-info " href="{% url 'profile_edit' %}">Edit</a>
                     </div>
@@ -116,7 +144,32 @@
                     </table>
                   </div>
               </div>
-          </div>
+            </div>
+            <div class='col'>
+              <div class="card mb-3">
+                  <div class="card-body">
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th scope="col">ID</th>
+                          <th scope="col">username</th>
+                          <th scope="col">Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for referal in user.referals.all %}
+                            <tr class='table-secondary'>
+                              <th scope="row">{{ referal.id }}</th>
+                              <td>{{ referal.username }}</td>
+                              <td>{{ referal.date_joined|date:"d.m.Y" }}</td>
+                            </tr>
+                        {% endfor %}
+                        
+                      </tbody>
+                    </table>
+                  </div>
+              </div>
+            </div>
         </div>
 
     </div>

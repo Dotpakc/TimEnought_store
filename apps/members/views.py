@@ -27,7 +27,7 @@ def singup_view(request):
     if request.method == 'POST':
         form = SingupForm(request.POST)
         if form.is_valid():
-            form.save()
+            form.save(ref = request.GET.get('ref'))
             
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
@@ -36,6 +36,8 @@ def singup_view(request):
             login(request, user)
             return redirect('index')
     else:
+        if request.user.is_authenticated:
+            return redirect('index')
         form = SingupForm()
     
     return render(request, 'members/login_or_signup.html', {'title':'Signup','form':form})

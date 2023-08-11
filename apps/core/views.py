@@ -5,13 +5,14 @@ from django.http import JsonResponse
 from django.urls import reverse
 
 from .mixins import DetailViewBreadcrumbMixin
-from .models import Page
+from .models import Page, ProductSet
 from apps.catalog.models import Product
-
 
 # Create your views here.
 def frontpage(request):
-    return render(request, 'core/frontpage.html', {'title': 'Главна сторінка'})
+    # products_sets = Product.objects.filter(is_active=True, product_sets__is_active=True).prefetch_related('product_sets')
+    products_sets = ProductSet.objects.filter(is_active=True).prefetch_related('products')
+    return render(request, 'core/frontpage.html', {'title': 'Главна сторінка', 'products_sets': products_sets})
 
 def about(request):
     return render(request, 'core/about.html', {'title': 'O нас'})

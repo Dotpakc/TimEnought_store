@@ -15,9 +15,16 @@ class SingupForm(UserCreationForm):
         self.fields['password1'].widget.attrs.update({'class':'form-control'})
         self.fields['password2'].widget.attrs.update({'class':'form-control'})
         
-    def save(self, commit=True):
+    def save(self, commit=True, ref=None):
         user = super().save(commit=False)
         user.email = self.cleaned_data['email']
+        if ref:
+            referal = get_user_model().objects.get(username=ref)
+            if referal:
+                user.referal = referal
+                referal.balance += 10
+                referal.save()
+                user.balance += 10
         
         if commit:
             user.save()
